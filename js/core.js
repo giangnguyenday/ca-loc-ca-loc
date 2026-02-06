@@ -1,5 +1,3 @@
-let has3D = false;
-
 function getDomRefs() {
   return {
     codeTop: document.getElementById("horseCodeTop"),
@@ -7,33 +5,8 @@ function getDomRefs() {
     fortune: document.getElementById("horseFortune"),
     description: document.getElementById("horseDescription"),
     codeBottom: document.getElementById("horseCodeBottom"),
-    designer: document.getElementById("horseDesigner"),
-    loading: document.getElementById("loadingIndicator"),
-    fallback: document.getElementById("modelFallback"),
-    canvas: document.getElementById("horseCanvas")
+    designer: document.getElementById("horseDesigner")
   };
-}
-
-function dispatchLoadEvent(type) {
-  window.dispatchEvent(new CustomEvent(`tethorse:${type}`));
-}
-
-export function init3D(canvasEl) {
-  if (!canvasEl) {
-    return;
-  }
-  has3D = false;
-  const dom = getDomRefs();
-  if (dom.fallback) {
-    dom.fallback.textContent = "3D preview disabled for testing.";
-    dom.fallback.classList.remove("hidden");
-  }
-  if (dom.loading) {
-    dom.loading.classList.add("hidden");
-  }
-  if (dom.canvas) {
-    dom.canvas.setAttribute("aria-hidden", "true");
-  }
 }
 
 export function renderOutcome(outcome) {
@@ -42,7 +15,6 @@ export function renderOutcome(outcome) {
   }
   setTheme(outcome.theme);
   setCopy(outcome);
-  loadModel(outcome.model);
 }
 
 export function setTheme(themeCfg = {}) {
@@ -54,12 +26,20 @@ export function setTheme(themeCfg = {}) {
     root.style.setProperty("--horse-bg-solid", themeCfg.bgSolid);
   } else if (themeCfg.bg) {
     if (themeCfg.bg.includes("gradient")) {
-      const firstVar = themeCfg.bg.match(/var\([^)]+\)/);
-      if (firstVar && firstVar[0]) {
-        root.style.setProperty("--horse-bg-solid", firstVar[0]);
+      const vars = themeCfg.bg.match(/var\([^)]+\)/g) || [];
+      const firstVar = vars[0];
+      const lastVar = vars[vars.length - 1];
+      if (firstVar) {
+        root.style.setProperty("--horse-bg-top", firstVar);
+        root.style.setProperty("--horse-bg-solid", firstVar);
+      }
+      if (lastVar) {
+        root.style.setProperty("--horse-bg-bottom", lastVar);
       }
     } else {
       root.style.setProperty("--horse-bg-solid", themeCfg.bg);
+      root.style.setProperty("--horse-bg-top", themeCfg.bg);
+      root.style.setProperty("--horse-bg-bottom", themeCfg.bg);
     }
   }
   if (themeCfg.text) {
@@ -72,6 +52,36 @@ export function setTheme(themeCfg = {}) {
   } else {
     document.body.removeAttribute("data-pattern");
   }
+
+  syncThemeColor();
+}
+
+function resolveThemeColor() {
+  const rootStyles = getComputedStyle(document.documentElement);
+  let color = rootStyles.getPropertyValue("--horse-bg-top").trim();
+  if (!color) {
+    color = rootStyles.getPropertyValue("--horse-bg-solid").trim();
+  }
+  if (color.startsWith("var(")) {
+    const varName = color.slice(4, -1).trim();
+    const resolved = rootStyles.getPropertyValue(varName).trim();
+    if (resolved) {
+      color = resolved;
+    }
+  }
+  if (!color || color.includes("gradient")) {
+    color = rootStyles.getPropertyValue("--colors-white").trim() || "#ffffff";
+  }
+  return color;
+}
+
+function syncThemeColor() {
+  const meta = document.querySelector("meta[name=\"theme-color\"]");
+  if (!meta) {
+    return;
+  }
+  const color = resolveThemeColor();
+  meta.setAttribute("content", color || "#ffffff");
 }
 
 export function setCopy(outcome) {
@@ -82,28 +92,4 @@ export function setCopy(outcome) {
   if (dom.description) dom.description.textContent = outcome.description || "";
   if (dom.codeBottom) dom.codeBottom.textContent = "DESIGNER";
   if (dom.designer) dom.designer.textContent = outcome.designer || "";
-}
-
-export function loadModel() {
-  const dom = getDomRefs();
-  dispatchLoadEvent("load-start");
-  if (dom.loading) {
-    dom.loading.classList.remove("hidden");
-  }
-
-  window.setTimeout(() => {
-    if (dom.loading) {
-      dom.loading.classList.add("hidden");
-    }
-    if (dom.fallback) {
-      dom.fallback.classList.remove("hidden");
-    }
-    dispatchLoadEvent("load-end");
-  }, 250);
-}
-
-export function cleanupModel() {
-  if (!has3D) {
-    return;
-  }
 }

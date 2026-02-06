@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Horse 3D Viewer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Space Grotesk", "Segoe UI", sans-serif;
+            overflow: hidden;
+            background: #000;
+            color: #e6f0ff;
+        }
+
+        #canvas {
+            display: block;
+            width: 100vw;
+            height: 100vh;
+            position: fixed;
+            inset: 0;
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Core Three.js library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <!-- OrbitControls: Enables mouse/touch controls for rotating, panning, and zooming the camera -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+
+    <!-- RGBELoader: Loads HDR environments for reflections/refraction -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/RGBELoader.js"></script>
+
+    <!-- Custom script to set up the scene, load the model, and render it -->
+    <script src="render.js"></script>
+
+    <script>
+        (() => {
+            const HORSE_MAP = {
+                "01": "giang",
+                "02": "lam",
+                "03": "phong",
+                "04": "nhan",
+                "05": "nha",
+                "06": "jinny",
+            };
+
+            const params = new URLSearchParams(window.location.search);
+            const horseParam = params.get("horse");
+            const normalized = horseParam ? horseParam.trim().toLowerCase() : "";
+            const horseKey = /^\d+$/.test(normalized)
+                ? normalized.padStart(2, "0")
+                : normalized;
+
+            let modelName = HORSE_MAP[horseKey];
+            if (!modelName) {
+                const knownModels = new Set(Object.values(HORSE_MAP));
+                if (knownModels.has(normalized)) {
+                    modelName = normalized;
+                }
+            }
+            if (!modelName) {
+                modelName = "giang";
+            }
+
+            if (typeof currentModelName !== "undefined") {
+                currentModelName = modelName;
+            }
+
+            const loadDesiredModel = () => {
+                if (typeof loadModel === "function") {
+                    loadModel(modelName);
+                }
+            };
+
+            const applySettingsFromFile = async () => {
+                try {
+                    const response = await fetch("settings.json", { cache: "no-store" });
+                    if (!response.ok) {
+                        throw new Error(`settings.json ${response.status}`);
+                    }
+                    const data = await response.json();
+                    const settings = data.settings ?? data;
+                    if (typeof applySettings === "function") {
+                        applySettings(settings);
+                        loadDesiredModel();
+                        return;
+                    }
+                } catch (error) {
+                    console.warn("Failed to load settings.json", error);
+                }
+
+                loadDesiredModel();
+            };
+
+            applySettingsFromFile();
+        })();
+    </script>
+</body>
+</html>

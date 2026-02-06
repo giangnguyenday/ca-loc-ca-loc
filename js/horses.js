@@ -22,7 +22,7 @@ export const HORSES = [
     designer: "Nhật Lam",
     theme: {
       bg: "var(--colors-primary-dark-green)",
-      text: "var(--colors-primary-red)"
+      text: "var(--colors-primary-orange)"
     }
   },
   {
@@ -77,6 +77,21 @@ export const HORSES = [
     theme: {
       bg: "var(--colors-primary-neon-pink)",
       text: "var(--colors-primary-dark-green)"
+    }
+  },
+  {
+    id: "07",
+    code: "CODE 07",
+    codeName: "Tiến Về Phía Trước",
+    fortune: "Chúc bạn chạy bằng bằng, lao nhanh như tên bắn.",
+    description:
+      "Tựa hình ảnh chú ngựa thong dong sải bước khắp địa cầu, chúc cho mọi hành trình của bạn luôn suôn sẻ; dù vượt vạn dặm xa xôi, vẫn luôn may mắn và bình an.",
+    designer: "Bằng Lâm",
+    secret: true,
+    theme: {
+      bg:
+        "linear-gradient(180deg, var(--colors-primary-pink), var(--colors-primary-neon-blue))",
+      text: "var(--colors-primary-yellow)"
     }
   }
 ];

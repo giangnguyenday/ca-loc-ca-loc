@@ -7,11 +7,44 @@
   --colors-primary-yellow: #ffff90;
   --colors-primary-orange: #ff5622;
   --colors-primary-neon-pink: #ff6ffa;
+  --colors-primary-pink: #ff9bd7;
+  --colors-primary-neon-blue: #60e6ff;
   --colors-primary-dark-green: #40401a;
 
+  /* Theme */
+  --bg1: var(--colors-white);
+  --bg2: var(--colors-white);
+  --accent: var(--colors-primary-red);
+  --card: var(--colors-white);
+  --text: var(--colors-black);
+  --muted: rgba(0, 0, 0, 0.6);
+  --border: rgba(0, 0, 0, 0.12);
+  --shadow: 0 18px 40px rgba(0, 0, 0, 0.12);
+
+  /* Layout scale */
+  --design-width: 393;
+  --vw-unit: calc(100vw / var(--design-width));
+
   /* Spacing */
+  --space-8: clamp(6px, calc(8 * var(--vw-unit)), 12px);
+  --space-10: clamp(8px, calc(10 * var(--vw-unit)), 16px);
+  --space-12: clamp(8px, calc(12 * var(--vw-unit)), 18px);
+  --space-16: clamp(10px, calc(16 * var(--vw-unit)), 24px);
+  --space-18: clamp(12px, calc(18 * var(--vw-unit)), 28px);
+  --space-20: clamp(12px, calc(20 * var(--vw-unit)), 30px);
+  --space-24: clamp(16px, calc(24 * var(--vw-unit)), 36px);
+  --space-32: clamp(20px, calc(32 * var(--vw-unit)), 48px);
+  --space-40: clamp(24px, calc(40 * var(--vw-unit)), 60px);
+  --space-48: clamp(28px, calc(48 * var(--vw-unit)), 72px);
+  --space-60: clamp(36px, calc(60 * var(--vw-unit)), 90px);
   --spacing-00: 0px;
   --spacing-10: 40px;
+
+  /* Sizes */
+  --size-72: clamp(54px, calc(72 * var(--vw-unit)), 96px);
+  --horse-circle-size: clamp(266px, calc(350 * var(--vw-unit)), 600px);
+  --dot-size: clamp(5px, calc(10 * var(--vw-unit)), 8px);
+  --radius: clamp(18px, calc(24 * var(--vw-unit)), 36px);
 
   /* Typography */
   --font-family-google-sans-flex: "Google Sans Flex", "Google Sans", sans-serif;
@@ -223,6 +256,7 @@ h6,
     "opsz" var(--font-heading-2-opsz);
 }
 
+.btn,
 .heading-3 {
   font-family: var(--font-heading-3-family);
   font-size: var(--font-heading-3-size);

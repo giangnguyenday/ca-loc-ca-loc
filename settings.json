@@ -1,0 +1,170 @@
+{
+  "version": 1,
+  "savedAt": "2026-02-02T06:56:30.785Z",
+  "settings": {
+    "renderer": {
+      "toneMappingExposure": 1.78,
+      "physicallyCorrectLights": true
+    },
+    "environment": {
+      "enabled": true,
+      "background": false,
+      "backgroundColor": 0,
+      "hdrPath": "assets/hdr.skysunrise.hdr"
+    },
+    "postprocessing": {
+      "enabled": true,
+      "bloom": {
+        "enabled": false,
+        "strength": 0.17,
+        "radius": 0.37,
+        "threshold": 0.4
+      },
+      "film": {
+        "enabled": false,
+        "noiseIntensity": 0.37,
+        "scanlinesIntensity": 0.42,
+        "scanlinesCount": 594,
+        "grayscale": false
+      },
+      "dotScreen": {
+        "enabled": false,
+        "angle": 0.06,
+        "scale": 0.61
+      },
+      "outline": {
+        "enabled": false,
+        "edgeStrength": 3,
+        "edgeGlow": 0,
+        "edgeThickness": 1,
+        "pulsePeriod": 0,
+        "visibleColor": 16777215,
+        "hiddenColor": 2228224
+      },
+      "ssao": {
+        "enabled": false,
+        "kernelRadius": 8,
+        "minDistance": 0.009,
+        "maxDistance": 0.18
+      },
+      "sao": {
+        "enabled": false,
+        "saoIntensity": 0.05,
+        "saoScale": 132,
+        "saoKernelRadius": 17,
+        "saoMinResolution": 0,
+        "saoBlur": false,
+        "saoBlurRadius": 2,
+        "saoBlurStdDev": 4,
+        "saoBlurDepthCutoff": 0.01
+      },
+      "sobel": {
+        "enabled": false,
+        "scale": 1.67
+      },
+      "lut": {
+        "enabled": false,
+        "intensity": 1
+      },
+      "vignette": {
+        "enabled": false,
+        "offset": 1.1,
+        "darkness": 1.54
+      },
+      "rgbShift": {
+        "enabled": false,
+        "amount": 0.0004,
+        "angle": 0
+      },
+      "fxaa": {
+        "enabled": true
+      }
+    },
+    "lights": {
+      "enabled": true,
+      "ambient": {
+        "color": 41943,
+        "intensity": 4.22
+      },
+      "key": {
+        "color": 5208616,
+        "intensity": 5.76,
+        "position": [
+          -2.99,
+          -2.81,
+          -2.81
+        ]
+      },
+      "rim": {
+        "color": 3692314,
+        "intensity": 4.78,
+        "position": [
+          -0.67,
+          -0.22,
+          -3.26
+        ]
+      }
+    },
+    "shadows": {
+      "enabled": true,
+      "mapSize": 2560,
+      "bias": 0.00134,
+      "radius": 2.1
+    },
+    "materials": {
+      "useCrystal": true,
+      "crystal": {
+        "enabled": true,
+        "tint": 12893184,
+        "opacity": 0.45,
+        "transmission": 1,
+        "roughness": 0.48,
+        "thickness": 41.5,
+        "ior": 1.39,
+        "clearcoat": 0.05,
+        "clearcoatRoughness": 1,
+        "emissive": 14914302,
+        "emissiveIntensity": 14.5,
+        "metalness": 0,
+        "envMapIntensity": 3.1,
+        "attenuationColor": 0,
+        "attenuationDistance": 85,
+        "sideTintScale": 1.51,
+        "depthWrite": true
+      }
+    },
+    "layers": {
+      "pngOffset": 2.34,
+      "pngGap": 0,
+      "backCrystalEnabled": true,
+      "backCrystalOffset": 1.5,
+      "backCrystalScale": 1,
+      "backCrystalTintScale": 0.81
+    },
+    "model": {
+      "extrusionDepth": 62,
+      "bevelEnabled": true,
+      "bevelThickness": 62.9,
+      "bevelSize": 23.7,
+      "bevelSegments": 20,
+      "alphaThreshold": 83,
+      "maxContourPoints": 1120,
+      "targetSize": 318,
+      "alphaTest": 0.46,
+      "pngAdjust": {
+        "front": {
+          "saturation": 1.19,
+          "vibrance": 0.13,
+          "brightness": 0.01,
+          "contrast": 1
+        },
+        "back": {
+          "saturation": 1.12,
+          "vibrance": 0.01,
+          "brightness": 0.03,
+          "contrast": 1
+        }
+      }
+    }
+  }
+}

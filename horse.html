@@ -3,6 +3,49 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#ffffff" />
+    <script>
+      (function () {
+        function applyThemeColor() {
+          const params = new URLSearchParams(window.location.search);
+          const id = params.get("horse") || params.get("id");
+          const themes = {
+            "01": { top: "#a4bddd", bottom: "#a4bddd", bg: "#a4bddd" },
+            "02": { top: "#40401a", bottom: "#40401a", bg: "#40401a" },
+            "03": {
+              top: "#ff5622",
+              bottom: "#ff6ffa",
+              bg: "linear-gradient(180deg, #ff5622, #ff6ffa)"
+            },
+            "04": { top: "#d50b0b", bottom: "#d50b0b", bg: "#d50b0b" },
+            "05": {
+              top: "#40401a",
+              bottom: "#ffff90",
+              bg: "linear-gradient(180deg, #40401a, #ffff90)"
+            },
+            "06": { top: "#ff6ffa", bottom: "#ff6ffa", bg: "#ff6ffa" },
+            "07": {
+              top: "#ff9bd7",
+              bottom: "#60e6ff",
+              bg: "linear-gradient(180deg, #ff9bd7, #60e6ff)"
+            }
+          };
+          const theme = themes[id] || themes["01"];
+          const meta = document.querySelector('meta[name="theme-color"]');
+          if (meta) {
+            meta.setAttribute("content", theme.top);
+          }
+          const root = document.documentElement.style;
+          root.setProperty("--horse-bg", theme.bg);
+          root.setProperty("--horse-bg-solid", theme.top);
+          root.setProperty("--horse-bg-top", theme.top);
+          root.setProperty("--horse-bg-bottom", theme.bottom);
+        }
+
+        applyThemeColor();
+        window.addEventListener("pageshow", applyThemeColor);
+      })();
+    </script>
     <title>Ca Loc Ca Loc - Share</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -12,8 +55,11 @@
     />
     <link rel="stylesheet" href="./css/styles.css" />
   </head>
-  <body class="page horse-page">
+  <body class="page page--horse">
+    <div class="horse-safe-top" aria-hidden="true"></div>
+    <div class="horse-safe-bottom" aria-hidden="true"></div>
     <div class="horse-bg" aria-hidden="true"></div>
+    <div class="horse-split-right" aria-hidden="true"></div>
     <header class="topbar">
       <a class="brand" href="index.html" aria-label="Ca Loc Ca Loc">
         <svg width="20" height="29" viewBox="0 0 20 29" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -21,8 +67,8 @@
         </svg>
       </a>
       <nav class="nav">
-        <a class="nav-link lang-link" href="#" aria-label="Switch language to Vietnamese">VIE</a>
-        <a class="nav-link info-link" href="info.html">Information</a>
+        <a class="nav-link nav-link--lang" href="#" aria-label="Switch language to Vietnamese">VIE</a>
+        <a class="nav-link nav-link--info" href="info.html">Information</a>
       </nav>
     </header>
 
@@ -34,55 +80,139 @@
           <div id="horseCodeName" class="highlight">Giải Mã Vận May</div>
         </div>
 
-        <div class="horse-circle" aria-hidden="true"></div>
+        <div class="horse-visual">
+          <div class="horse-circle horse-viewport" aria-hidden="true">
+            <div id="horse3dMount" class="horse-viewport-inner"></div>
+          </div>
+        </div>
 
-        <div class="horse-content">
-          <div
-            class="fortune-carousel"
-            id="fortuneCarousel"
-            role="region"
-            aria-label="Fortune details"
-          >
-            <div class="fortune-track">
-              <div class="fortune-slide" data-slide="0">
-                <div id="horseFortune" class="heading-2">A wish for fortune and prosperity.</div>
-              </div>
-              <div class="fortune-slide" data-slide="1">
-                <div class="fortune-detail">
-                  <div id="horseDescription" class="body-text">
-                    Tựa hình ảnh chú ngựa thong dong sải bước khắp địa cầu, chúc cho mọi
-                    hành trình của bạn luôn suôn sẻ; dù vượt vạn dặm xa xôi, vẫn luôn may
-                    mắn và bình an.
-                  </div>
-                  <div class="horse-meta inline">
-                    <div id="horseCodeBottom" class="heading-3">DESIGNER</div>
-                    <div id="horseDesigner" class="highlight">Giang Nguyễn</div>
+        <div class="horse-panel">
+          <div class="horse-content">
+            <div
+              class="fortune-carousel"
+              id="fortuneCarousel"
+              role="region"
+              aria-label="Fortune details"
+            >
+              <div class="fortune-track">
+                <div class="fortune-slide" data-slide="0">
+                  <div id="horseFortune" class="heading-2">A wish for fortune and prosperity.</div>
+                </div>
+                <div class="fortune-slide" data-slide="1">
+                  <div class="fortune-detail">
+                    <div id="horseDescription" class="body-text">
+                      Tựa hình ảnh chú ngựa thong dong sải bước khắp địa cầu, chúc cho mọi
+                      hành trình của bạn luôn suôn sẻ; dù vượt vạn dặm xa xôi, vẫn luôn may
+                      mắn và bình an.
+                    </div>
+                    <div class="horse-meta inline">
+                      <div id="horseCodeBottom" class="heading-3">DESIGNER</div>
+                      <div id="horseDesigner" class="highlight">Giang Nguyễn</div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
+            <div class="fortune-dots" role="tablist" aria-label="Fortune pages">
+              <button
+                class="fortune-dot is-active"
+                type="button"
+                aria-label="Fortune message"
+                aria-current="true"
+                data-slide="0"
+              ></button>
+              <button
+                class="fortune-dot"
+                type="button"
+                aria-label="Fortune description"
+                data-slide="1"
+              ></button>
+            </div>
           </div>
-          <div class="fortune-dots" role="tablist" aria-label="Fortune pages">
-            <button
-              class="fortune-dot is-active"
-              type="button"
-              aria-label="Fortune message"
-              aria-current="true"
-              data-slide="0"
-            ></button>
-            <button
-              class="fortune-dot"
-              type="button"
-              aria-label="Fortune description"
-              data-slide="1"
-            ></button>
-          </div>
-        </div>
 
-        <a class="btn fortune-button" href="index.html">Draw more fortune</a>
+          <a class="btn fortune-button heading-3" href="index.html">Draw more fortune</a>
+        </div>
       </section>
     </main>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/RGBELoader.js"></script>
+    <script src="render.js"></script>
+    <script>
+      (() => {
+        const HORSE_MAP = {
+          "01": "giang",
+          "02": "lam",
+          "03": "phong",
+          "04": "nhan",
+          "05": "nha",
+          "06": "jinny",
+          "07": "banglam"
+        };
+
+        const params = new URLSearchParams(window.location.search);
+        const horseParam = params.get("horse");
+        const normalized = horseParam ? horseParam.trim().toLowerCase() : "";
+        const horseKey = /^\d+$/.test(normalized)
+          ? normalized.padStart(2, "0")
+          : normalized;
+
+        let modelName = HORSE_MAP[horseKey];
+        if (!modelName) {
+          const knownModels = new Set(Object.values(HORSE_MAP));
+          if (knownModels.has(normalized)) {
+            modelName = normalized;
+          }
+        }
+        if (!modelName) {
+          modelName = "giang";
+        }
+
+        if (typeof currentModelName !== "undefined") {
+          currentModelName = modelName;
+        }
+
+        const mountCanvas = () => {
+          const mount = document.getElementById("horse3dMount");
+          const canvas = document.getElementById("canvas");
+          if (mount && canvas && canvas.parentElement !== mount) {
+            mount.appendChild(canvas);
+          }
+        };
+
+        const loadDesiredModel = () => {
+          if (typeof loadModel === "function") {
+            loadModel(modelName);
+          }
+          mountCanvas();
+        };
+
+        const applySettingsFromFile = async () => {
+          try {
+            const response = await fetch("settings.json", { cache: "no-store" });
+            if (!response.ok) {
+              throw new Error(`settings.json ${response.status}`);
+            }
+            const data = await response.json();
+            const settings = data.settings ?? data;
+            if (typeof applySettings === "function") {
+              applySettings(settings);
+              loadDesiredModel();
+              return;
+            }
+          } catch (error) {
+            console.warn("Failed to load settings.json", error);
+          }
+
+          loadDesiredModel();
+        };
+
+        applySettingsFromFile();
+        window.addEventListener("resize", mountCanvas);
+        window.addEventListener("pageshow", mountCanvas);
+      })();
+    </script>
     <script type="module" src="./js/horse.js"></script>
   </body>
 </html>

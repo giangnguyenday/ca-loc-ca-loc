@@ -1,12 +1,9 @@
 import { HORSES } from "./horses.js";
-import { init3D, renderOutcome } from "./core.js";
+import { renderOutcome } from "./core.js";
 
-const canvas = document.getElementById("horseCanvas");
 const errorBox = document.getElementById("errorBox");
 const fortuneCarousel = document.getElementById("fortuneCarousel");
 const fortuneDots = Array.from(document.querySelectorAll(".fortune-dot"));
-
-init3D(canvas);
 
 function setActiveDot(index) {
   if (!fortuneDots.length) {
@@ -35,19 +32,19 @@ function scrollToSlide(index) {
   });
 }
 
-let scrollRaf = null;
+let scrollRafId = null;
 function handleCarouselScroll() {
   if (!fortuneCarousel || !fortuneDots.length) {
     return;
   }
-  if (scrollRaf) {
+  if (scrollRafId) {
     return;
   }
-  scrollRaf = window.requestAnimationFrame(() => {
+  scrollRafId = window.requestAnimationFrame(() => {
     const width = fortuneCarousel.clientWidth || 1;
     const index = Math.round(fortuneCarousel.scrollLeft / width);
     setActiveDot(index);
-    scrollRaf = null;
+    scrollRafId = null;
   });
 }
 
@@ -66,7 +63,7 @@ if (fortuneCarousel && fortuneDots.length) {
 }
 
 const params = new URLSearchParams(window.location.search);
-const id = params.get("horse") || params.get("id");
+const horseId = params.get("horse") || params.get("id");
 
 function showError(message) {
   if (!errorBox) {
@@ -76,10 +73,10 @@ function showError(message) {
   errorBox.classList.remove("hidden");
 }
 
-if (!id) {
+if (!horseId) {
   showError("Missing horse id.");
 } else {
-  const outcome = HORSES.find((horse) => horse.id === id);
+  const outcome = HORSES.find((horse) => horse.id === horseId);
   if (!outcome) {
     showError("Horse not found.");
   } else {
